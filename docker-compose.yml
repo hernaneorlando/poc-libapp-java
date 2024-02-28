@@ -1,0 +1,39 @@
+version: '3.9'
+
+services:
+  mysql-db:
+    image: mysql:latest
+    container_name: mysql-db
+    environment:
+      - MYSQL_ROOT_PASSWORD=User@123
+      - MYSQL_PWD=User@123
+      - MYSQL_DATABASE=library
+    ports:
+      - "3306:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-P", "3306"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - poc-network
+
+  java-mongo-db:
+    image: mongo:latest
+    container_name: java-mongo-db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root
+    ports:
+      - '27017:27017'
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval \"db.adminCommand({ping:1})\" --quiet"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+    networks:
+      - poc-network
+
+networks:
+  poc-network:
+    driver: bridge
