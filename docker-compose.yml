@@ -34,6 +34,27 @@ services:
     networks:
       - poc-network
 
+  java-server:
+    build:
+      dockerfile: server.Dockerfile
+      context: .
+    image: java-server
+    container_name: java-server
+    depends_on:
+      mysql-db:
+        condition: service_healthy
+      java-mongo-db:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://java-server:8080/actuator/health"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - poc-network
+
 networks:
   poc-network:
     driver: bridge
