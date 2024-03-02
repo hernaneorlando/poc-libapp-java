@@ -55,6 +55,20 @@ services:
     networks:
       - poc-network
 
+  react-client:
+    build:
+      dockerfile: client.Dockerfile
+      context: .
+    image: react-client
+    container_name: react-client
+    depends_on:
+      java-server:
+        condition: service_healthy
+    ports:
+      - "8081:3000"
+    networks:
+      - poc-network
+
 networks:
   poc-network:
     driver: bridge

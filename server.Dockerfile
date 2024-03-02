@@ -6,5 +6,5 @@ RUN mvn install -DskipTests
 
 WORKDIR /app
 RUN cp /src/target/library-app-0.0.1-SNAPSHOT.jar /app/app.jar
-EXPOSE 8080
 ENTRYPOINT ["java","-jar","/app/app.jar"]
+EXPOSE 8080

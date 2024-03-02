@@ -2,5 +2,7 @@
 .git
 .gitignore
 .vscode
-*/.vscode
-*/target
+**/.vscode
+**/target
+**/node_modules
+**/build
